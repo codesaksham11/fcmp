@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>High Stakes - Fisherman's Casino</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --deep: #050508;
+  --panel: #12121a;
+  --panel2: #1a1a26;
+  --border: #2a2a40;
+  --gold: #c8a84b;
+  --gold2: #f0d080;
+  --gold3: #8a6a20;
+  --teal: #2abfbf;
+  --teal2: #1a8f8f;
+  --red: #e03030;
+  --green: #28a060;
+  --green2: #1a6a40;
+  --text: #d4cfc8;
+  --text2: #8a8070;
+  --common: #9e9e9e;
+  --uncommon: #4caf50;
+  --rare: #2196f3;
+  --epic: #9c27b0;
+  --legendary: #ff9800;
+  --heroic: #e91e63;
+  --shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Cinzel',serif;overflow-x:hidden;min-height:100vh;}
+
+/* ── NAVBAR ── */
+#navbar{background:linear-gradient(180deg,#0d0d18 0%,#090912 100%);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gold3);position:sticky;top:0;z-index:100;gap:10px;flex-wrap:wrap;}
+.nav-brand{font-family:'Cinzel Decorative',serif;font-size:clamp(13px,3vw,20px);color:var(--gold);letter-spacing:2px;text-shadow:0 0 20px var(--gold3);white-space:nowrap;}
+.hamburger{font-size:22px;cursor:pointer;color:var(--gold);padding:4px 8px;border-radius:4px;transition:0.2s;user-select:none;}
+.hamburger:hover{background:rgba(200,168,75,0.1);}
+.stats{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.stat-badge{background:var(--panel2);border:1px solid var(--border);padding:5px 10px;border-radius:6px;font-size:clamp(11px,2.2vw,14px);font-family:'IM Fell English',serif;color:var(--text);white-space:nowrap;}
+.stat-badge.gold-badge{border-color:var(--gold3);color:var(--gold);}
+
+/* ── SIDEBAR ── */
+#sidebar{position:fixed;top:0;left:-270px;width:270px;height:100%;background:linear-gradient(180deg,#0d0d18,#090912);border-right:1px solid var(--gold3);transition:0.3s cubic-bezier(.4,0,.2,1);z-index:1000;padding-top:60px;box-shadow:5px 0 30px rgba(0,0,0,0.8);}
+#sidebar.open{left:0;}
+#sidebar a{display:flex;align-items:center;gap:12px;padding:14px 22px;color:var(--text);text-decoration:none;font-size:16px;border-bottom:1px solid #1a1a2a;cursor:pointer;transition:0.2s;font-family:'Cinzel',serif;letter-spacing:1px;}
+#sidebar a:hover{background:rgba(200,168,75,0.07);color:var(--gold);padding-left:30px;}
+#sidebar a .nav-icon{font-size:20px;width:28px;text-align:center;}
+.close-btn{position:absolute;top:12px;right:18px;font-size:28px;cursor:pointer;color:var(--text2);transition:0.2s;}
+.close-btn:hover{color:var(--gold);}
+#overlay-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;}
+
+/* ── BLACKJACK SPECIFIC ── */
+.view{padding:20px;max-width:1000px;margin:auto;}
+.view-title{font-family:'Cinzel Decorative',serif;font-size:clamp(16px,4vw,24px);color:var(--gold);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--gold3);display:flex;align-items:center;gap:10px;letter-spacing:2px;}
+#bj-table{background:radial-gradient(ellipse at center,#0a4a20 0%,#063015 60%,#031a0c 100%);border-radius:20px;padding:22px;min-height:360px;border:4px solid #2a1800;box-shadow:inset 0 0 60px rgba(0,0,0,0.6),0 0 30px rgba(0,0,0,0.5);position:relative;text-align:center;margin-top:14px;}
+#bj-table::before{content:'FISHERMAN\'S CASINO';position:absolute;top:14px;left:50%;transform:translateX(-50%);color:rgba(200,168,75,0.15);font-family:'Cinzel Decorative',serif;font-size:12px;letter-spacing:4px;white-space:nowrap;}
+.cards-area{min-height:100px;display:flex;justify-content:center;flex-wrap:wrap;gap:6px;padding:6px;}
+.card{width:58px;height:86px;background:#fff;color:#111;border-radius:6px;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:2px 4px 10px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.8);border:1px solid #ddd;margin:3px;position:relative;transition:transform 0.2s;}
+.card .card-suit{font-size:12px;opacity:0.7;}
+.card.red{color:#c00;}
+.card.hidden{background:#b71c1c;background-image:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(0,0,0,0.15) 8px,rgba(0,0,0,0.15) 16px);color:transparent;}
+.card.hidden .card-suit{display:none;}
+.card.deal-in{animation:dealCard 0.3s ease-out;}
+@keyframes dealCard{from{transform:translateY(-30px) scale(0.8);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.hand-score{background:rgba(0,0,0,0.7);border:1px solid rgba(200,168,75,0.3);padding:5px 12px;border-radius:20px;display:inline-block;margin-bottom:8px;font-size:13px;color:var(--gold);font-family:'IM Fell English',serif;}
+.split-hands{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+.active-hand{outline:2px solid var(--gold);outline-offset:6px;border-radius:6px;}
+.bj-bet-area{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;background:var(--panel);padding:16px;border-radius:12px;border:1px solid var(--border);margin-bottom:14px;}
+#bj-controls{background:var(--panel);padding:14px;border-radius:10px;border:1px solid var(--border);display:none;justify-content:center;gap:10px;flex-wrap:wrap;}
+#bj-msg{font-size:16px;font-family:'IM Fell English',serif;font-style:italic;text-align:center;margin:10px 0;min-height:24px;color:var(--gold2);}
+
+/* BJ 21 Bonus Banner */
+#bj-21-banner{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:10;pointer-events:none;border-radius:18px;}
+#bj-21-banner.show{display:flex;animation:bannerIn 0.5s cubic-bezier(.175,.885,.32,1.275);}
+@keyframes bannerIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+.banner-inner{background:linear-gradient(135deg,#7a4800,var(--gold),#7a4800);padding:18px 36px;border-radius:16px;font-family:'Cinzel Decorative',serif;font-size:clamp(20px,5vw,36px);color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);box-shadow:0 0 60px rgba(200,168,75,0.8),inset 0 1px 0 rgba(255,255,255,0.3);text-align:center;}
+
+/* ── BUTTONS & UI ── */
+button{background:linear-gradient(135deg,var(--green2),var(--green));color:#fff;border:1px solid rgba(255,255,255,0.1);padding:9px 18px;cursor:pointer;border-radius:6px;font-weight:600;transition:0.2s;font-family:'Cinzel',serif;font-size:13px;}
+button:hover{filter:brightness(1.15);transform:translateY(-1px);}
+button.btn-gold{background:linear-gradient(135deg,var(--gold3),var(--gold));}
+button.btn-danger{background:linear-gradient(135deg,#7a1010,var(--red));}
+button.btn-teal{background:linear-gradient(135deg,var(--teal2),var(--teal));}
+select,input{padding:9px 12px;border-radius:6px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-family:'Cinzel',serif;font-size:13px;}
+#toast-container{position:fixed;top:70px;right:16px;z-index:5000;display:flex;flex-direction:column;gap:8px;max-width:280px;}
+.toast{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;animation:toastIn 0.3s ease,toastOut 0.3s ease 2.7s forwards;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);}
+.toast.toast-gold{border-color:var(--gold3);color:var(--gold);}
+.toast.toast-legendary{border-color:var(--legendary);color:var(--legendary);}
+@keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateX(30px)}}
+
+@media(max-width:600px){
+  #navbar{flex-direction:column;align-items:flex-start;}
+  .stats{gap:6px;}
+  .card{width:48px;height:72px;font-size:14px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOAST ── -->
+<div id="toast-container"></div>
+
+<!-- ── NAVBAR ── -->
+<div id="navbar">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="nav-brand">🃏 High Stakes Casino</div>
+  </div>
+  <div class="stats">
+    <span class="stat-badge gold-badge" id="ui-money">💰 ₹0</span>
+    <span class="stat-badge" id="ui-level">Lvl 1</span>
+  </div>
+</div>
+
+<!-- ── SIDEBAR ── -->
+<div id="overlay-bg" onclick="toggleMenu()"></div>
+<div id="sidebar">
+  <div class="close-btn" onclick="toggleMenu()">×</div>
+  <a href="index.html"><span class="nav-icon">🎣</span>Fishing Pond</a>
+  <a href="index.html?view=inventory"><span class="nav-icon">🎒</span>Inventory</a>
+  <a href="index.html?view=shop"><span class="nav-icon">🏪</span>Market</a>
+  <a onclick="toggleMenu()" style="color:var(--gold);"><span class="nav-icon">🃏</span>Blackjack</a>
+  <a href="index.html?view=quests"><span class="nav-icon">📜</span>Daily Quests</a>
+  <a href="index.html?view=achievements"><span class="nav-icon">🏆</span>Achievements</a>
+</div>
+
+<!-- ── BLACKJACK VIEW ── -->
+<div class="view">
+  <div class="view-title">🃏 Professional Blackjack</div>
+  <div class="bj-bet-area">
+    <select id="bj-mode" onchange="updateBjLimits()">
+      <option value="1">Mode I: ₹10 – ₹1k</option>
+      <option value="2">Mode II: ₹1k – ₹10k</option>
+      <option value="3">Mode III: ₹10k – ₹100k</option>
+      <option value="4">Mode IV: ₹100k – ₹1M</option>
+      <option value="5">Mode V: ₹1M – ₹10M</option>
+    </select>
+    <input type="number" id="bj-bet" placeholder="Bet amount">
+    <button class="btn-gold" onclick="startBjRound()" id="btn-bj-deal">Deal Cards</button>
+  </div>
+  <div id="bj-msg"></div>
+  <div id="bj-table">
+    <div id="bj-21-banner"><div class="banner-inner">🌟 TWENTY-ONE! 🌟<br><span style="font-size:0.55em;display:block;margin-top:6px;">Bonus Payout!</span></div></div>
+    <div id="dealer-area">
+      <div class="hand-score" id="dealer-score">Dealer: ?</div>
+      <div class="cards-area" id="dealer-cards"></div>
+    </div>
+    <div id="player-area" class="split-hands"></div>
+  </div>
+  <div id="bj-controls">
+    <button onclick="bjHit()">Hit</button>
+    <button onclick="bjStand()" class="btn-danger">Stand</button>
+    <button onclick="bjDouble()" id="btn-bj-double" class="btn-gold">Double Down</button>
+    <button onclick="bjSplit()" id="btn-bj-split" class="btn-teal">Split</button>
+    <button onclick="bjInsurance()" id="btn-bj-insurance" style="display:none;">🛡️ Insurance</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  STATE & SYNC
+// ═══════════════════════════════════════════
+let player = {
+  money:500, gems:0, exp:0, level:1, maxInv:100, shopSlots:6,
+  inv:[], rodLevel:1, lastShopTime:Date.now(), shopInventory:[],
+  stats:{ totalCaught:0, raresCaught:0, heroicCaught:0, bjWins:0, bj21s:0, peakMoney:500, sellCount:0, earnedToday:0 },
+  achievements:[], quests:[], questDate:''
+};
+
+// BJ Game State
+let bjDeck=[], bjDealer={cards:[]}, bjHands=[], currentHandIndex=0;
+let bjMinBet=10, bjMaxBet=1000, bjState='betting', bjInsuranceTaken=false;
+
+// Database for perks
+const ITEMS = {
+  'bj_book_1': { id:'bj_book_1' },
+  'bj_book_2': { id:'bj_book_2' },
+  'bj_book_3': { id:'bj_book_3' }
+};
+
+function saveGame() {
+  localStorage.setItem('fc_save_v2', JSON.stringify(player));
+}
+
+function loadGame() {
+  let saved = localStorage.getItem('fc_save_v2');
+  if(saved) {
+    try {
+      player = JSON.parse(saved);
+      updateUI();
+    } catch(e) { console.error('Load Error'); }
+  }
+}
+
+function updateUI() {
+  document.getElementById('ui-money').innerText=`💰 ₹${fmt(player.money)}`;
+  player.level = Math.floor(Math.sqrt(player.exp/100))+1;
+  document.getElementById('ui-level').innerText=`Lvl ${player.level}`;
+  if(player.money > player.stats.peakMoney) player.stats.peakMoney=player.money;
+}
+
+function fmt(n) {
+  if(n>=1000000) return (n/1000000).toFixed(2)+'M';
+  if(n>=1000) return (n/1000).toFixed(1)+'k';
+  return n.toLocaleString();
+}
+
+function toast(msg, type='') {
+  let el=document.createElement('div');
+  el.className=`toast ${type?'toast-'+type:''}`;
+  el.innerHTML=msg;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(()=>el.remove(),3100);
+}
+
+function toggleMenu() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay-bg').style.display =
+    document.getElementById('sidebar').classList.contains('open') ? 'block' : 'none';
+}
+
+function hasItem(id){ return player.inv.some(i=>i.id===id); }
+
+// ═══════════════════════════════════════════
+//  BLACKJACK ENGINE
+// ═══════════════════════════════════════════
+function updateBjLimits(){
+  let mode=document.getElementById('bj-mode').value;
+  const limits=[[10,1000],[1000,10000],[10000,100000],[100000,1000000],[1000000,10000000]];
+  [bjMinBet,bjMaxBet]=limits[mode-1];
+  document.getElementById('bj-bet').placeholder=`₹${fmt(bjMinBet)} – ₹${fmt(bjMaxBet)}`;
+}
+
+function buildBjDeck(){
+  bjDeck=[];
+  const suits=['♠','♥','♦','♣'],vals=['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+  for(let d=0;d<6;d++) for(let s of suits) for(let v of vals){
+    let w=parseInt(v)||(['J','Q','K'].includes(v)?10:11);
+    bjDeck.push({suit:s,value:v,weight:w});
+  }
+  for(let i=bjDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bjDeck[i],bjDeck[j]]=[bjDeck[j],bjDeck[i]];}
+}
+
+function drawCard(){ if(bjDeck.length<20)buildBjDeck(); return bjDeck.pop(); }
+
+function getScore(cards){
+  let score=0,aces=0;
+  for(let c of cards){score+=c.weight;if(c.value==='A')aces++;}
+  while(score>21&&aces>0){score-=10;aces--;}
+  return score;
+}
+
+function setBjMsg(msg){ document.getElementById('bj-msg').innerHTML=msg; }
+
+function startBjRound(){
+  if(bjState==='playing') return;
+  let bet=parseInt(document.getElementById('bj-bet').value);
+  if(isNaN(bet)||bet<bjMinBet||bet>bjMaxBet){setBjMsg(`Bet must be ₹${fmt(bjMinBet)}–₹${fmt(bjMaxBet)}`);return;}
+  if(player.money<bet){setBjMsg('Not enough gold!');return;}
+  
+  player.money-=bet; 
+  updateUI();
+  buildBjDeck();
+  
+  bjDealer.cards=[drawCard(),drawCard()];
+  bjHands=[{cards:[drawCard(),drawCard()],bet,status:'active'}];
+  currentHandIndex=0; bjState='playing'; bjInsuranceTaken=false;
+  
+  document.getElementById('btn-bj-deal').style.display='none';
+  document.getElementById('bj-controls').style.display='flex';
+  document.getElementById('bj-21-banner').classList.remove('show');
+  setBjMsg('Good luck, captain!');
+  renderBjTable();
+
+  let ins=document.getElementById('btn-bj-insurance');
+  if(bjDealer.cards[0].value==='A'&&(hasItem('bj_book_1')||player.money>=Math.floor(bet/2))){
+    ins.style.display='inline-block';
+    ins.innerText=hasItem('bj_book_1')?'🛡️ Free Insurance':'🛡️ Insurance';
+  } else ins.style.display='none';
+  
+  checkBlackjack();
+}
+
+function checkBlackjack(){
+  let pScore=getScore(bjHands[0].cards);
+  let dScore=getScore(bjDealer.cards);
+  let pBJ=pScore===21&&bjHands[0].cards.length===2;
+  let dBJ=dScore===21&&bjDealer.cards.length===2;
+  
+  if(pBJ||dBJ){
+    bjState='gameOver'; 
+    renderBjTable();
+    if(pBJ&&dBJ){ setBjMsg("Push — Double Blackjacks!"); player.money+=bjHands[0].bet; }
+    else if(pBJ){
+      let mult=hasItem('bj_book_2')?3:2.5;
+      setBjMsg(applyWin(bjHands[0].bet,mult,'🃏 Natural Blackjack!'));
+      document.getElementById('bj-21-banner').classList.add('show');
+    } else {
+      if(bjInsuranceTaken||hasItem('bj_book_1')){ setBjMsg("Dealer Blackjack. Insurance saved you!"); player.money+=bjHands[0].bet; }
+      else setBjMsg("Dealer has Blackjack.");
+    }
+    endBjRound();
+  }
+}
+
+function applyWin(betAmount,mult,prefix){
+  let total=Math.floor(betAmount*mult);
+  let profit=total-betAmount;
+  let xp=Math.max(1,Math.floor(profit/10));
+  player.money+=total; player.exp+=xp;
+  player.stats.bjWins++;
+  trackQuestProgress('bjwin',1);
+  return `${prefix} (₹${fmt(total)}) <span style="color:#6ddc9a">[+${xp} XP]</span>`;
+}
+
+function renderBjTable(){
+  let dCardsHtml='', dScore='?';
+  if(bjState==='gameOver'||bjState==='dealerTurn'){
+    dScore=getScore(bjDealer.cards);
+    bjDealer.cards.forEach(c=>{
+      let col=(c.suit==='♥'||c.suit==='♦')?'red':'';
+      dCardsHtml+=`<div class="card ${col} deal-in">${c.value}<div class="card-suit">${c.suit}</div></div>`;
+    });
+  } else {
+    let c0=bjDealer.cards[0];
+    let col=(c0.suit==='♥'||c0.suit==='♦')?'red':'';
+    dCardsHtml+=`<div class="card ${col}">${c0.value}<div class="card-suit">${c0.suit}</div></div>`;
+    dCardsHtml+=`<div class="card hidden"></div>`;
+  }
+  document.getElementById('dealer-score').innerText=`Dealer: ${dScore}`;
+  document.getElementById('dealer-cards').innerHTML=dCardsHtml;
+
+  let pArea=document.getElementById('player-area');
+  pArea.innerHTML='';
+  bjHands.forEach((hand,i)=>{
+    let score=getScore(hand.cards);
+    let active=(i===currentHandIndex&&bjState==='playing')?'active-hand':'';
+    let html=`<div style="text-align:center" class="${active}">
+      <div class="hand-score">You: ${score} · Bet ₹${fmt(hand.bet)}</div>
+      <div class="cards-area" style="min-height:auto">`;
+    hand.cards.forEach(c=>{
+      let col=(c.suit==='♥'||c.suit==='♦')?'red':'';
+      html+=`<div class="card ${col} deal-in">${c.value}<div class="card-suit">${c.suit}</div></div>`;
+    });
+    html+=`</div></div>`;
+    pArea.innerHTML+=html;
+  });
+
+  if(bjState==='playing'){
+    let hand=bjHands[currentHandIndex];
+    document.getElementById('btn-bj-double').disabled=(hand.cards.length>2||player.money<hand.bet);
+    document.getElementById('btn-bj-split').disabled=!(hand.cards.length===2&&hand.cards[0].value===hand.cards[1].value&&bjHands.length===1&&player.money>=hand.bet);
+  }
+}
+
+function bjHit(){
+  let hand=bjHands[currentHandIndex];
+  hand.cards.push(drawCard());
+  let score=getScore(hand.cards);
+  if(score===21){
+    document.getElementById('bj-21-banner').classList.add('show');
+    let bonus=Math.floor(hand.bet*(hasItem('bj_book_3')?0.5:0.25));
+    player.money+=bonus; player.stats.bj21s++; trackQuestProgress('bj21',1);
+    toast(`🌟 21 Bonus! ₹${fmt(bonus)}`,'legendary');
+    hand.status='stood'; nextHand();
+  } else if(score>21){
+    hand.status='busted'; nextHand();
+  } else renderBjTable();
+}
+
+function bjStand(){ bjHands[currentHandIndex].status='stood'; nextHand(); }
+
+function bjDouble(){
+  let hand=bjHands[currentHandIndex];
+  player.money-=hand.bet; hand.bet*=2;
+  hand.cards.push(drawCard());
+  let score=getScore(hand.cards);
+  hand.status=score>21?'busted':'stood';
+  updateUI(); nextHand();
+}
+
+function bjSplit(){
+  let hand=bjHands[currentHandIndex];
+  player.money-=hand.bet;
+  let newHand={cards:[hand.cards.pop()],bet:hand.bet,status:'active'};
+  hand.cards.push(drawCard()); newHand.cards.push(drawCard());
+  bjHands.push(newHand); updateUI(); renderBjTable();
+}
+
+function bjInsurance(){
+  let hand=bjHands[0];
+  let cost=Math.floor(hand.bet/2);
+  if(hasItem('bj_book_1')){ bjInsuranceTaken=true; toast('Free Insurance active!','gold'); }
+  else if(player.money>=cost){ player.money-=cost; bjInsuranceTaken=true; toast(`Insurance taken`,'gold'); updateUI(); }
+  document.getElementById('btn-bj-insurance').style.display='none';
+}
+
+function nextHand(){
+  currentHandIndex++;
+  if(currentHandIndex>=bjHands.length){ bjState='dealerTurn'; playDealer(); }
+  else renderBjTable();
+}
+
+function playDealer(){
+  renderBjTable();
+  let allBusted=bjHands.every(h=>h.status==='busted');
+  const draw=()=>{
+    if(!allBusted&&getScore(bjDealer.cards)<17){
+      bjDealer.cards.push(drawCard()); renderBjTable(); setTimeout(draw,500);
+    } else { bjState='gameOver'; resolveBjBets(); }
+  };
+  setTimeout(draw,600);
+}
+
+function resolveBjBets(){
+  let dScore=getScore(bjDealer.cards);
+  let msgs=[];
+  bjHands.forEach((hand,i)=>{
+    let pScore=getScore(hand.cards);
+    let pre=bjHands.length>1?`Hand ${i+1}: `:'';
+    if(hand.status==='busted') msgs.push(`${pre}Busted.`);
+    else if(dScore>21) msgs.push(applyWin(hand.bet,2,`${pre}Dealer busted!`));
+    else if(pScore>dScore) msgs.push(applyWin(hand.bet,2,`${pre}You win!`));
+    else if(pScore===dScore){ msgs.push(`${pre}Push.`); player.money+=hand.bet; }
+    else msgs.push(`${pre}Dealer wins.`);
+  });
+  setBjMsg(msgs.join('<br>'));
+  renderBjTable(); endBjRound();
+  updateUI();
+}
+
+function endBjRound(){
+  updateUI(); saveGame();
+  document.getElementById('btn-bj-deal').style.display='inline-block';
+  document.getElementById('bj-controls').style.display='none';
+}
+
+// Quest syncing logic
+function trackQuestProgress(type, amount) {
+    player.quests.forEach(q => {
+        if(q.type === type && !q.claimed) {
+            q.progress = Math.min(q.target, q.progress + amount);
+        }
+    });
+}
+
+window.onload = () => {
+  loadGame();
+  updateBjLimits();
+};
+</script>
+</body>
+  </html>
