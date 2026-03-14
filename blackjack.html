@@ -2,167 +2,360 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>High Stakes - Fisherman's Casino</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0a0f;
-  --deep: #050508;
-  --panel: #12121a;
-  --panel2: #1a1a26;
-  --border: #2a2a40;
-  --gold: #c8a84b;
-  --gold2: #f0d080;
-  --gold3: #8a6a20;
-  --teal: #2abfbf;
-  --teal2: #1a8f8f;
-  --red: #e03030;
-  --green: #28a060;
-  --green2: #1a6a40;
-  --text: #d4cfc8;
-  --text2: #8a8070;
-  --common: #9e9e9e;
-  --uncommon: #4caf50;
-  --rare: #2196f3;
-  --epic: #9c27b0;
-  --legendary: #ff9800;
-  --heroic: #e91e63;
-  --shadow: 0 8px 32px rgba(0,0,0,0.6);
+  --bg: #0a0a0f; --deep: #050508; --panel: #12121a; --panel2: #1a1a26;
+  --border: #2a2a40; --gold: #c8a84b; --gold2: #f0d080; --gold3: #8a6a20;
+  --teal: #2abfbf; --teal2: #1a8f8f; --red: #e03030; --green: #28a060;
+  --green2: #1a6a40; --text: #d4cfc8; --text2: #8a8070;
+  --legendary: #ff9800; --shadow: 0 8px 32px rgba(0,0,0,0.6);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'Cinzel',serif;overflow-x:hidden;min-height:100vh;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Cinzel',serif;overflow-x:hidden;}
 
-/* ── NAVBAR ── */
-#navbar{background:linear-gradient(180deg,#0d0d18 0%,#090912 100%);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gold3);position:sticky;top:0;z-index:100;gap:10px;flex-wrap:wrap;}
-.nav-brand{font-family:'Cinzel Decorative',serif;font-size:clamp(13px,3vw,20px);color:var(--gold);letter-spacing:2px;text-shadow:0 0 20px var(--gold3);white-space:nowrap;}
+/* NAVBAR */
+#navbar{background:linear-gradient(180deg,#0d0d18,#090912);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--gold3);position:sticky;top:0;z-index:100;gap:8px;flex-wrap:wrap;}
+.nav-brand{font-family:'Cinzel Decorative',serif;font-size:clamp(12px,3vw,19px);color:var(--gold);letter-spacing:2px;text-shadow:0 0 20px var(--gold3);white-space:nowrap;}
 .hamburger{font-size:22px;cursor:pointer;color:var(--gold);padding:4px 8px;border-radius:4px;transition:0.2s;user-select:none;}
 .hamburger:hover{background:rgba(200,168,75,0.1);}
-.stats{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
-.stat-badge{background:var(--panel2);border:1px solid var(--border);padding:5px 10px;border-radius:6px;font-size:clamp(11px,2.2vw,14px);font-family:'IM Fell English',serif;color:var(--text);white-space:nowrap;}
+.nav-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.stat-badge{background:var(--panel2);border:1px solid var(--border);padding:5px 10px;border-radius:6px;font-size:clamp(11px,2.2vw,13px);font-family:'IM Fell English',serif;color:var(--text);white-space:nowrap;}
 .stat-badge.gold-badge{border-color:var(--gold3);color:var(--gold);}
+.my-id-badge{background:rgba(42,191,191,0.1);border:1px solid var(--teal2);padding:5px 10px;border-radius:6px;font-size:12px;color:var(--teal);cursor:pointer;white-space:nowrap;}
+.my-id-badge:hover{background:rgba(42,191,191,0.2);}
 
-/* ── SIDEBAR ── */
+/* SIDEBAR */
 #sidebar{position:fixed;top:0;left:-270px;width:270px;height:100%;background:linear-gradient(180deg,#0d0d18,#090912);border-right:1px solid var(--gold3);transition:0.3s cubic-bezier(.4,0,.2,1);z-index:1000;padding-top:60px;box-shadow:5px 0 30px rgba(0,0,0,0.8);}
 #sidebar.open{left:0;}
-#sidebar a{display:flex;align-items:center;gap:12px;padding:14px 22px;color:var(--text);text-decoration:none;font-size:16px;border-bottom:1px solid #1a1a2a;cursor:pointer;transition:0.2s;font-family:'Cinzel',serif;letter-spacing:1px;}
+#sidebar a{display:flex;align-items:center;gap:12px;padding:14px 22px;color:var(--text);text-decoration:none;font-size:15px;border-bottom:1px solid #1a1a2a;cursor:pointer;transition:0.2s;font-family:'Cinzel',serif;letter-spacing:1px;}
 #sidebar a:hover{background:rgba(200,168,75,0.07);color:var(--gold);padding-left:30px;}
-#sidebar a .nav-icon{font-size:20px;width:28px;text-align:center;}
+.sidebar-section{padding:10px 22px 4px;font-size:11px;color:var(--text2);letter-spacing:2px;text-transform:uppercase;}
 .close-btn{position:absolute;top:12px;right:18px;font-size:28px;cursor:pointer;color:var(--text2);transition:0.2s;}
 .close-btn:hover{color:var(--gold);}
 #overlay-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;}
 
-/* ── BLACKJACK SPECIFIC ── */
-.view{padding:20px;max-width:1000px;margin:auto;}
-.view-title{font-family:'Cinzel Decorative',serif;font-size:clamp(16px,4vw,24px);color:var(--gold);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--gold3);display:flex;align-items:center;gap:10px;letter-spacing:2px;}
-#bj-table{background:radial-gradient(ellipse at center,#0a4a20 0%,#063015 60%,#031a0c 100%);border-radius:20px;padding:22px;min-height:360px;border:4px solid #2a1800;box-shadow:inset 0 0 60px rgba(0,0,0,0.6),0 0 30px rgba(0,0,0,0.5);position:relative;text-align:center;margin-top:14px;}
-#bj-table::before{content:'FISHERMAN\'S CASINO';position:absolute;top:14px;left:50%;transform:translateX(-50%);color:rgba(200,168,75,0.15);font-family:'Cinzel Decorative',serif;font-size:12px;letter-spacing:4px;white-space:nowrap;}
-.cards-area{min-height:100px;display:flex;justify-content:center;flex-wrap:wrap;gap:6px;padding:6px;}
-.card{width:58px;height:86px;background:#fff;color:#111;border-radius:6px;font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:2px 4px 10px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.8);border:1px solid #ddd;margin:3px;position:relative;transition:transform 0.2s;}
-.card .card-suit{font-size:12px;opacity:0.7;}
+/* TOGGLE SWITCH */
+.toggle-row{display:flex;align-items:center;gap:10px;padding:14px 22px;border-bottom:1px solid #1a1a2a;}
+.toggle-label{font-size:14px;color:var(--text);}
+.toggle-switch{position:relative;width:48px;height:26px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:#2a2a40;border-radius:26px;cursor:pointer;transition:0.3s;}
+.toggle-slider:before{content:'';position:absolute;height:20px;width:20px;left:3px;bottom:3px;background:#666;border-radius:50%;transition:0.3s;}
+input:checked+.toggle-slider{background:var(--teal2);}
+input:checked+.toggle-slider:before{transform:translateX(22px);background:#fff;}
+
+/* SAVE/LOAD PANEL */
+.save-panel{padding:14px 22px;border-bottom:1px solid #1a1a2a;display:flex;flex-direction:column;gap:8px;}
+.save-panel-title{font-size:11px;color:var(--text2);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;}
+.save-btn{background:linear-gradient(135deg,var(--gold3),var(--gold));color:#fff;border:none;padding:8px 14px;border-radius:6px;font-family:'Cinzel',serif;font-size:12px;cursor:pointer;transition:0.2s;width:100%;text-align:left;}
+.save-btn:hover{filter:brightness(1.15);}
+.save-btn.blue{background:linear-gradient(135deg,#1a4080,#3070d0);}
+.file-input-label{background:linear-gradient(135deg,#402040,#803080);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-family:'Cinzel',serif;font-size:12px;cursor:pointer;transition:0.2s;width:100%;text-align:left;display:block;}
+.file-input-label:hover{filter:brightness(1.15);}
+#upload-file{display:none;}
+
+/* MAIN CONTENT */
+.view{padding:16px;max-width:900px;margin:auto;}
+.view-title{font-family:'Cinzel Decorative',serif;font-size:clamp(14px,4vw,22px);color:var(--gold);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--gold3);display:flex;align-items:center;gap:10px;letter-spacing:2px;flex-wrap:wrap;}
+
+/* MODE TABS */
+.mode-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;width:100%;max-width:340px;}
+.mode-tab{flex:1;padding:10px;text-align:center;cursor:pointer;font-size:13px;background:var(--panel);color:var(--text2);transition:0.2s;border:none;font-family:'Cinzel',serif;}
+.mode-tab.active{background:linear-gradient(135deg,var(--gold3),var(--gold));color:#fff;}
+
+/* ONLINE LOBBY */
+#online-lobby{display:none;}
+.lobby-header{font-size:12px;color:var(--text2);margin-bottom:12px;font-family:'IM Fell English',serif;}
+
+/* CONNECTION STATUS */
+.conn-status{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:11px;font-family:'IM Fell English',serif;margin-bottom:14px;}
+.conn-status.connected{background:rgba(40,160,96,0.2);border:1px solid var(--green2);color:var(--green);}
+.conn-status.connecting{background:rgba(200,168,75,0.15);border:1px solid var(--gold3);color:var(--gold);}
+.conn-status.disconnected{background:rgba(224,48,48,0.15);border:1px solid #701010;color:var(--red);}
+.conn-dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* SEATS */
+.seats-container{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:18px;}
+.seat{background:var(--panel);border:2px solid var(--border);border-radius:14px;padding:14px;min-width:140px;max-width:200px;flex:1;text-align:center;transition:0.3s;position:relative;}
+.seat.self{border-color:var(--gold3);}
+.seat.occupied{border-color:var(--teal2);}
+.seat.disconnected-seat{border-color:#701010;opacity:0.7;}
+.seat-id{font-size:20px;font-weight:bold;color:var(--teal);margin-bottom:4px;}
+.seat-id.self-id{color:var(--gold);}
+.seat-label{font-size:11px;color:var(--text2);}
+.seat-status{font-size:12px;color:var(--text2);margin-top:4px;}
+.seat-bet{color:var(--gold);font-size:13px;margin-top:4px;}
+.seat-add{font-size:30px;color:var(--border);cursor:pointer;transition:0.2s;line-height:1;}
+.seat-add:hover{color:var(--teal);transform:scale(1.1);}
+.seat-empty{border-style:dashed;}
+
+/* BET RANGE SELECTOR */
+.bet-range-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;}
+.range-chip{padding:6px 12px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid var(--border);background:var(--panel2);color:var(--text2);transition:0.2s;font-family:'Cinzel',serif;}
+.range-chip.active{border-color:var(--gold3);background:rgba(200,168,75,0.15);color:var(--gold);}
+
+/* TABLE */
+#bj-table{background:radial-gradient(ellipse at center,#0a4a20 0%,#063015 60%,#031a0c 100%);border-radius:18px;padding:18px;min-height:300px;border:4px solid #2a1800;box-shadow:inset 0 0 60px rgba(0,0,0,0.6),0 0 30px rgba(0,0,0,0.5);position:relative;text-align:center;margin-top:10px;}
+#bj-table::before{content:'FISHERMAN\'S CASINO';position:absolute;top:12px;left:50%;transform:translateX(-50%);color:rgba(200,168,75,0.12);font-family:'Cinzel Decorative',serif;font-size:10px;letter-spacing:3px;white-space:nowrap;}
+.cards-area{min-height:90px;display:flex;justify-content:center;flex-wrap:wrap;gap:5px;padding:5px;}
+.card{width:54px;height:80px;background:#fff;color:#111;border-radius:6px;font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-direction:column;box-shadow:2px 4px 10px rgba(0,0,0,0.6);border:1px solid #ddd;margin:2px;position:relative;transition:transform 0.2s;}
+.card .card-suit{font-size:11px;opacity:0.7;}
 .card.red{color:#c00;}
 .card.hidden{background:#b71c1c;background-image:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(0,0,0,0.15) 8px,rgba(0,0,0,0.15) 16px);color:transparent;}
-.card.hidden .card-suit{display:none;}
 .card.deal-in{animation:dealCard 0.3s ease-out;}
 @keyframes dealCard{from{transform:translateY(-30px) scale(0.8);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-.hand-score{background:rgba(0,0,0,0.7);border:1px solid rgba(200,168,75,0.3);padding:5px 12px;border-radius:20px;display:inline-block;margin-bottom:8px;font-size:13px;color:var(--gold);font-family:'IM Fell English',serif;}
-.split-hands{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
-.active-hand{outline:2px solid var(--gold);outline-offset:6px;border-radius:6px;}
-.bj-bet-area{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;background:var(--panel);padding:16px;border-radius:12px;border:1px solid var(--border);margin-bottom:14px;}
-#bj-controls{background:var(--panel);padding:14px;border-radius:10px;border:1px solid var(--border);display:none;justify-content:center;gap:10px;flex-wrap:wrap;}
-#bj-msg{font-size:16px;font-family:'IM Fell English',serif;font-style:italic;text-align:center;margin:10px 0;min-height:24px;color:var(--gold2);}
+.hand-score{background:rgba(0,0,0,0.7);border:1px solid rgba(200,168,75,0.3);padding:4px 11px;border-radius:20px;display:inline-block;margin-bottom:6px;font-size:12px;color:var(--gold);font-family:'IM Fell English',serif;}
+.player-hand-block{text-align:center;padding:10px;border-radius:10px;transition:0.2s;}
+.player-hand-block.active-turn{background:rgba(42,191,191,0.1);border:1px solid rgba(42,191,191,0.4);}
+.player-hand-block.busted{opacity:0.5;}
+.player-hand-block .pid{font-size:12px;color:var(--text2);margin-bottom:4px;}
+.player-hand-block.self-hand .pid{color:var(--gold);}
 
-/* BJ 21 Bonus Banner */
-#bj-21-banner{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:10;pointer-events:none;border-radius:18px;}
+/* MULTIPLAYER PLAYER GRID */
+#mp-hands{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:14px;}
+
+/* CONTROLS */
+.bj-bet-area{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;background:var(--panel);padding:14px;border-radius:12px;border:1px solid var(--border);margin-bottom:12px;}
+#bj-controls{background:var(--panel);padding:12px;border-radius:10px;border:1px solid var(--border);display:none;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px;}
+#bj-msg{font-size:15px;font-family:'IM Fell English',serif;font-style:italic;text-align:center;margin:8px 0;min-height:22px;color:var(--gold2);}
+
+/* BANNER */
+#bj-21-banner{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:10;pointer-events:none;border-radius:16px;}
 #bj-21-banner.show{display:flex;animation:bannerIn 0.5s cubic-bezier(.175,.885,.32,1.275);}
 @keyframes bannerIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
-.banner-inner{background:linear-gradient(135deg,#7a4800,var(--gold),#7a4800);padding:18px 36px;border-radius:16px;font-family:'Cinzel Decorative',serif;font-size:clamp(20px,5vw,36px);color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);box-shadow:0 0 60px rgba(200,168,75,0.8),inset 0 1px 0 rgba(255,255,255,0.3);text-align:center;}
+.banner-inner{background:linear-gradient(135deg,#7a4800,var(--gold),#7a4800);padding:16px 32px;border-radius:14px;font-family:'Cinzel Decorative',serif;font-size:clamp(18px,5vw,32px);color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.5);box-shadow:0 0 60px rgba(200,168,75,0.8);text-align:center;}
 
-/* ── BUTTONS & UI ── */
+/* RESULTS */
+.result-badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-family:'IM Fell English',serif;margin-top:4px;}
+.result-badge.win{background:rgba(40,160,96,0.2);border:1px solid var(--green2);color:var(--green);}
+.result-badge.blackjack{background:rgba(200,168,75,0.2);border:1px solid var(--gold3);color:var(--gold);}
+.result-badge.loss,.result-badge.bust{background:rgba(224,48,48,0.15);border:1px solid #701010;color:var(--red);}
+.result-badge.push{background:rgba(120,120,160,0.2);border:1px solid #4a4a70;color:var(--text2);}
+
+/* INVITE MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;}
+.modal-box{background:var(--panel);border:1px solid var(--gold3);border-radius:14px;padding:24px;max-width:340px;width:100%;box-shadow:var(--shadow);}
+.modal-title{font-family:'Cinzel Decorative',serif;font-size:16px;color:var(--gold);margin-bottom:14px;}
+.modal-btns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+.invite-timer{font-size:12px;color:var(--red);margin-top:8px;font-family:'IM Fell English',serif;}
+
+/* BUTTONS */
 button{background:linear-gradient(135deg,var(--green2),var(--green));color:#fff;border:1px solid rgba(255,255,255,0.1);padding:9px 18px;cursor:pointer;border-radius:6px;font-weight:600;transition:0.2s;font-family:'Cinzel',serif;font-size:13px;}
 button:hover{filter:brightness(1.15);transform:translateY(-1px);}
+button:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
 button.btn-gold{background:linear-gradient(135deg,var(--gold3),var(--gold));}
 button.btn-danger{background:linear-gradient(135deg,#7a1010,var(--red));}
 button.btn-teal{background:linear-gradient(135deg,var(--teal2),var(--teal));}
+button.btn-grey{background:linear-gradient(135deg,#2a2a40,#3a3a55);color:var(--text2);}
 select,input{padding:9px 12px;border-radius:6px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-family:'Cinzel',serif;font-size:13px;}
-#toast-container{position:fixed;top:70px;right:16px;z-index:5000;display:flex;flex-direction:column;gap:8px;max-width:280px;}
-.toast{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:13px;animation:toastIn 0.3s ease,toastOut 0.3s ease 2.7s forwards;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);}
+input[type=number]{width:130px;}
+
+/* TOAST */
+#toast-container{position:fixed;top:70px;right:12px;z-index:5000;display:flex;flex-direction:column;gap:8px;max-width:280px;}
+.toast{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-size:12px;animation:toastIn 0.3s ease,toastOut 0.3s ease 2.7s forwards;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);}
 .toast.toast-gold{border-color:var(--gold3);color:var(--gold);}
+.toast.toast-teal{border-color:var(--teal2);color:var(--teal);}
+.toast.toast-red{border-color:#701010;color:var(--red);}
 .toast.toast-legendary{border-color:var(--legendary);color:var(--legendary);}
 @keyframes toastIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
 @keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateX(30px)}}
 
+/* LANDSCAPE HINT */
+#landscape-hint{display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(42,191,191,0.15);border:1px solid var(--teal2);padding:8px 16px;border-radius:20px;font-size:11px;color:var(--teal);z-index:200;font-family:'IM Fell English',serif;white-space:nowrap;}
+
 @media(max-width:600px){
-  #navbar{flex-direction:column;align-items:flex-start;}
-  .stats{gap:6px;}
-  .card{width:48px;height:72px;font-size:14px;}
+  .card{width:44px;height:66px;font-size:14px;}
+  .seats-container{gap:8px;}
+  .seat{min-width:110px;padding:10px;}
+}
+@media(orientation:portrait){
+  #landscape-hint{display:block;}
 }
 </style>
 </head>
 <body>
 
-<!-- ── TOAST ── -->
 <div id="toast-container"></div>
+<div id="landscape-hint">📱 Rotate to landscape for best experience</div>
 
-<!-- ── NAVBAR ── -->
+<!-- NAVBAR -->
 <div id="navbar">
-  <div style="display:flex;align-items:center;gap:12px;">
+  <div style="display:flex;align-items:center;gap:10px;">
     <div class="hamburger" onclick="toggleMenu()">☰</div>
-    <div class="nav-brand">🃏 High Stakes Casino</div>
+    <div class="nav-brand">🃏 High Stakes</div>
   </div>
-  <div class="stats">
+  <div class="nav-right">
+    <div class="my-id-badge" onclick="copyMyId()" title="Click to copy your ID">🆔 <span id="nav-my-id">—</span></div>
     <span class="stat-badge gold-badge" id="ui-money">💰 ₹0</span>
     <span class="stat-badge" id="ui-level">Lvl 1</span>
   </div>
 </div>
 
-<!-- ── SIDEBAR ── -->
+<!-- SIDEBAR -->
 <div id="overlay-bg" onclick="toggleMenu()"></div>
 <div id="sidebar">
   <div class="close-btn" onclick="toggleMenu()">×</div>
-  <a href="index.html"><span class="nav-icon">🎣</span>Fishing Pond</a>
-  <a href="index.html?view=inventory"><span class="nav-icon">🎒</span>Inventory</a>
-  <a href="index.html?view=shop"><span class="nav-icon">🏪</span>Market</a>
-  <a onclick="toggleMenu()" style="color:var(--gold);"><span class="nav-icon">🃏</span>Blackjack</a>
-  <a href="index.html?view=quests"><span class="nav-icon">📜</span>Daily Quests</a>
-  <a href="index.html?view=achievements"><span class="nav-icon">🏆</span>Achievements</a>
+
+  <div class="toggle-row">
+    <label class="toggle-switch">
+      <input type="checkbox" id="online-toggle" onchange="toggleOnlineMode()">
+      <span class="toggle-slider"></span>
+    </label>
+    <span class="toggle-label">Online Multiplayer</span>
+  </div>
+
+  <div class="sidebar-section">Save & Load Progress</div>
+  <div class="save-panel">
+    <div class="save-panel-title" id="save-info-label" style="color:var(--text2);font-size:11px;">ID: —</div>
+    <button class="save-btn" onclick="downloadSave()">⬇ Download Save File</button>
+    <label class="file-input-label" for="upload-file">⬆ Upload Save File
+      <input type="file" id="upload-file" accept=".hsc" onchange="uploadSave(event)">
+    </label>
+  </div>
+
+  <div class="sidebar-section">Navigation</div>
+  <a href="index.html"><span>🎣</span>Fishing Pond</a>
+  <a href="index.html?view=inventory"><span>🎒</span>Inventory</a>
+  <a href="index.html?view=shop"><span>🏪</span>Market</a>
+  <a onclick="toggleMenu()" style="color:var(--gold);"><span>🃏</span>Blackjack</a>
+  <a href="index.html?view=quests"><span>📜</span>Daily Quests</a>
 </div>
 
-<!-- ── BLACKJACK VIEW ── -->
-<div class="view">
-  <div class="view-title">🃏 Professional Blackjack</div>
-  <div class="bj-bet-area">
-    <select id="bj-mode" onchange="updateBjLimits()">
-      <option value="1">Mode I: ₹10 – ₹1k</option>
-      <option value="2">Mode II: ₹1k – ₹10k</option>
-      <option value="3">Mode III: ₹10k – ₹100k</option>
-      <option value="4">Mode IV: ₹100k – ₹1M</option>
-      <option value="5">Mode V: ₹1M – ₹10M</option>
-    </select>
-    <input type="number" id="bj-bet" placeholder="Bet amount">
-    <button class="btn-gold" onclick="startBjRound()" id="btn-bj-deal">Deal Cards</button>
-  </div>
-  <div id="bj-msg"></div>
-  <div id="bj-table">
-    <div id="bj-21-banner"><div class="banner-inner">🌟 TWENTY-ONE! 🌟<br><span style="font-size:0.55em;display:block;margin-top:6px;">Bonus Payout!</span></div></div>
-    <div id="dealer-area">
-      <div class="hand-score" id="dealer-score">Dealer: ?</div>
-      <div class="cards-area" id="dealer-cards"></div>
+<!-- INVITE MODAL (hidden) -->
+<div class="modal-overlay" id="invite-modal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-title">🃏 Game Invite!</div>
+    <div id="invite-modal-body" style="font-family:'IM Fell English',serif;font-size:14px;color:var(--text);">
+      Player <strong id="invite-from-id">?</strong> invites you to play!<br>
+      Bet range: <strong id="invite-bet-range">?</strong>
     </div>
-    <div id="player-area" class="split-hands"></div>
+    <div class="invite-timer" id="invite-timer-text"></div>
+    <div class="modal-btns">
+      <button class="btn-teal" onclick="respondInvite(true)">✔ Accept</button>
+      <button class="btn-danger" onclick="respondInvite(false)">✘ Decline</button>
+    </div>
   </div>
-  <div id="bj-controls">
-    <button onclick="bjHit()">Hit</button>
-    <button onclick="bjStand()" class="btn-danger">Stand</button>
-    <button onclick="bjDouble()" id="btn-bj-double" class="btn-gold">Double Down</button>
-    <button onclick="bjSplit()" id="btn-bj-split" class="btn-teal">Split</button>
-    <button onclick="bjInsurance()" id="btn-bj-insurance" style="display:none;">🛡️ Insurance</button>
+</div>
+
+<!-- ADD PLAYER MODAL -->
+<div class="modal-overlay" id="add-modal" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-title">Invite Player</div>
+    <div style="font-family:'IM Fell English',serif;font-size:13px;color:var(--text2);margin-bottom:12px;">Enter their 5-digit Player ID</div>
+    <input type="text" id="add-id-input" maxlength="5" placeholder="e.g. 11234" style="width:100%;margin-bottom:4px;">
+    <div id="add-modal-error" style="font-size:12px;color:var(--red);min-height:18px;margin-top:4px;font-family:'IM Fell English',serif;"></div>
+    <div class="modal-btns">
+      <button class="btn-teal" onclick="submitInvite()">Send Invite →</button>
+      <button class="btn-grey" onclick="closeAddModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN VIEW -->
+<div class="view">
+  <div class="view-title">🃏 Blackjack</div>
+
+  <!-- MODE TABS -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" id="tab-offline" onclick="setUiMode('offline')">Offline</button>
+    <button class="mode-tab" id="tab-online" onclick="setUiMode('online')">Online</button>
+  </div>
+
+  <!-- ══ OFFLINE MODE ══ -->
+  <div id="offline-section">
+    <div class="bj-bet-area">
+      <select id="bj-mode" onchange="updateBjLimits()">
+        <option value="1">Mode I: ₹10 – ₹1k</option>
+        <option value="2">Mode II: ₹1k – ₹10k</option>
+        <option value="3">Mode III: ₹10k – ₹100k</option>
+        <option value="4">Mode IV: ₹100k – ₹1M</option>
+        <option value="5">Mode V: ₹1M – ₹10M</option>
+      </select>
+      <input type="number" id="bj-bet" placeholder="Bet amount">
+      <button class="btn-gold" onclick="startBjRound()" id="btn-bj-deal">Deal Cards</button>
+    </div>
+    <div id="bj-msg"></div>
+    <div id="bj-table">
+      <div id="bj-21-banner"><div class="banner-inner">🌟 TWENTY-ONE! 🌟<br><span style="font-size:0.55em;display:block;margin-top:6px;">Bonus Payout!</span></div></div>
+      <div id="dealer-area">
+        <div class="hand-score" id="dealer-score">Dealer: ?</div>
+        <div class="cards-area" id="dealer-cards"></div>
+      </div>
+      <div id="player-area" style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:14px;"></div>
+    </div>
+    <div id="bj-controls">
+      <button onclick="bjHit()">Hit</button>
+      <button onclick="bjStand()" class="btn-danger">Stand</button>
+      <button onclick="bjDouble()" id="btn-bj-double" class="btn-gold">Double Down</button>
+      <button onclick="bjSplit()" id="btn-bj-split" class="btn-teal">Split</button>
+      <button onclick="bjInsurance()" id="btn-bj-insurance" style="display:none;">🛡️ Insurance</button>
+    </div>
+  </div>
+
+  <!-- ══ ONLINE LOBBY ══ -->
+  <div id="online-section" style="display:none;">
+    <div id="conn-status-badge" class="conn-status connecting"><span class="conn-dot"></span><span id="conn-status-text">Connecting…</span></div>
+
+    <!-- Seats -->
+    <div id="seats-area" class="seats-container"></div>
+
+    <!-- Bet Range (host only) -->
+    <div id="bet-range-area" style="display:none;">
+      <div style="font-size:11px;color:var(--text2);margin-bottom:6px;letter-spacing:1px;">BET RANGE (host)</div>
+      <div class="bet-range-row" id="bet-range-chips"></div>
+    </div>
+
+    <!-- Bet placement (online round) -->
+    <div id="online-bet-area" style="display:none;" class="bj-bet-area">
+      <span style="font-size:13px;color:var(--text2);font-family:'IM Fell English',serif;">Your bet:</span>
+      <input type="number" id="mp-bet-input" placeholder="Amount">
+      <button class="btn-gold" onclick="placeMpBet()">Place Bet</button>
+    </div>
+
+    <!-- Host start button — only shown to host when bets are placed -->
+    <div id="host-start-area" style="display:none;text-align:center;margin:10px 0;">
+      <button class="btn-teal" id="btn-start-round" onclick="hostStartRound()" style="padding:12px 32px;font-size:15px;letter-spacing:1px;">
+        🃏 Start Round
+      </button>
+      <div id="host-start-hint" style="font-size:11px;color:var(--text2);margin-top:6px;font-family:'IM Fell English',serif;"></div>
+    </div>
+
+    <div id="mp-msg" style="font-size:15px;font-family:'IM Fell English',serif;font-style:italic;text-align:center;margin:8px 0;min-height:22px;color:var(--gold2);"></div>
+
+    <!-- Multiplayer table -->
+    <div id="mp-table" style="display:none;background:radial-gradient(ellipse at center,#0a4a20,#063015 60%,#031a0c);border-radius:18px;padding:18px;border:4px solid #2a1800;box-shadow:inset 0 0 60px rgba(0,0,0,0.6);">
+      <div style="text-align:center;">
+        <div class="hand-score" id="mp-dealer-score">Dealer: ?</div>
+        <div class="cards-area" id="mp-dealer-cards"></div>
+      </div>
+      <div id="mp-hands" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:14px;"></div>
+    </div>
+
+    <!-- Online action controls -->
+    <div id="mp-controls" style="display:none;background:var(--panel);padding:12px;border-radius:10px;border:1px solid var(--border);justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px;">
+      <button onclick="mpAction('hit')">Hit</button>
+      <button onclick="mpAction('stand')" class="btn-danger">Stand</button>
+      <button onclick="mpAction('double')" id="mp-btn-double" class="btn-gold">Double</button>
+    </div>
   </div>
 </div>
 
 <script>
 // ═══════════════════════════════════════════
-//  STATE & SYNC
+//  CONFIG
+// ═══════════════════════════════════════════
+const SERVER_URL = 'https://kodak-awards-properly-industry.trycloudflare.com';
+const SERVER_WS  = SERVER_URL.replace('https://', 'wss://').replace('http://', 'ws://');
+const SAVE_KEY   = 'fc_save_v2';
+const ID_KEY     = 'fc_player_id';
+const POLL_INTERVAL = 5000;
+
+// ═══════════════════════════════════════════
+//  PLAYER STATE
 // ═══════════════════════════════════════════
 let player = {
   money:500, gems:0, exp:0, level:1, maxInv:100, shopSlots:6,
@@ -171,51 +364,127 @@ let player = {
   achievements:[], quests:[], questDate:''
 };
 
-// BJ Game State
-let bjDeck=[], bjDealer={cards:[]}, bjHands=[], currentHandIndex=0;
-let bjMinBet=10, bjMaxBet=1000, bjState='betting', bjInsuranceTaken=false;
+let myUserId = null;
+let isOnlineMode = false;
+let uiMode = 'offline'; // 'offline' | 'online'
 
-// Database for perks
-const ITEMS = {
-  'bj_book_1': { id:'bj_book_1' },
-  'bj_book_2': { id:'bj_book_2' },
-  'bj_book_3': { id:'bj_book_3' }
-};
-
+// ═══════════════════════════════════════════
+//  SAVE / LOAD / DOWNLOAD / UPLOAD
+// ═══════════════════════════════════════════
 function saveGame() {
-  localStorage.setItem('fc_save_v2', JSON.stringify(player));
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(player)); } catch(e) {}
 }
 
 function loadGame() {
-  let saved = localStorage.getItem('fc_save_v2');
-  if(saved) {
-    try {
-      player = JSON.parse(saved);
-      updateUI();
-    } catch(e) { console.error('Load Error'); }
+  const saved = localStorage.getItem(SAVE_KEY);
+  if (saved) {
+    try { player = JSON.parse(saved); } catch(e) {}
   }
+  updateUI();
 }
 
+function downloadSave() {
+  const data = localStorage.getItem(SAVE_KEY);
+  if (!data) { toast('No save data found!', 'red'); return; }
+  const payload = { userId: myUserId, savedAt: Date.now(), version: 2, data: JSON.parse(data) };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `hsc_save_${myUserId}_${Date.now()}.hsc`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('💾 Save downloaded!', 'gold');
+}
+
+function uploadSave(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const payload = JSON.parse(ev.target.result);
+      if (!payload.data || payload.version !== 2) { toast('Invalid save file!', 'red'); return; }
+      // Restore userId from file if not already set
+      if (payload.userId && !localStorage.getItem(ID_KEY)) {
+        localStorage.setItem(ID_KEY, payload.userId);
+        myUserId = payload.userId;
+      } else if (payload.userId) {
+        // Keep existing ID but load save data
+        toast(`Loaded save for ID ${payload.userId}`, 'teal');
+      }
+      player = payload.data;
+      localStorage.setItem(SAVE_KEY, JSON.stringify(player));
+      updateUI();
+      updateSidebarInfo();
+      toast('✅ Save restored!', 'gold');
+    } catch(err) { toast('Failed to read file.', 'red'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+// ═══════════════════════════════════════════
+//  USER ID
+// ═══════════════════════════════════════════
+async function initUserId() {
+  let stored = localStorage.getItem(ID_KEY);
+  if (stored) { myUserId = stored; updateSidebarInfo(); return; }
+
+  try {
+    const res = await fetch(`${SERVER_URL}/api/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: null })
+    });
+    const data = await res.json();
+    myUserId = String(data.userId);
+    localStorage.setItem(ID_KEY, myUserId);
+  } catch(e) {
+    // Offline fallback: generate local ID
+    myUserId = String(Math.floor(Math.random() * 88888) + 11111);
+    localStorage.setItem(ID_KEY, myUserId);
+    toast('Offline mode — ID generated locally', 'gold');
+  }
+  updateSidebarInfo();
+}
+
+function updateSidebarInfo() {
+  document.getElementById('nav-my-id').textContent = myUserId || '—';
+  document.getElementById('save-info-label').textContent = `Your ID: ${myUserId || '—'}`;
+}
+
+function copyMyId() {
+  if (!myUserId) return;
+  navigator.clipboard.writeText(myUserId).then(() => toast(`ID ${myUserId} copied!`, 'teal')).catch(() => {});
+}
+
+// ═══════════════════════════════════════════
+//  UI HELPERS
+// ═══════════════════════════════════════════
 function updateUI() {
-  document.getElementById('ui-money').innerText=`💰 ₹${fmt(player.money)}`;
-  player.level = Math.floor(Math.sqrt(player.exp/100))+1;
-  document.getElementById('ui-level').innerText=`Lvl ${player.level}`;
-  if(player.money > player.stats.peakMoney) player.stats.peakMoney=player.money;
+  document.getElementById('ui-money').textContent = `💰 ₹${fmt(player.money)}`;
+  player.level = Math.floor(Math.sqrt((player.exp||0)/100)) + 1;
+  document.getElementById('ui-level').textContent = `Lvl ${player.level}`;
+  if (player.money > (player.stats?.peakMoney || 0)) player.stats.peakMoney = player.money;
 }
 
 function fmt(n) {
-  if(n>=1000000) return (n/1000000).toFixed(2)+'M';
-  if(n>=1000) return (n/1000).toFixed(1)+'k';
-  return n.toLocaleString();
+  if (n >= 1000000) return (n/1000000).toFixed(2) + 'M';
+  if (n >= 1000) return (n/1000).toFixed(1) + 'k';
+  return Number(n).toLocaleString();
 }
 
 function toast(msg, type='') {
-  let el=document.createElement('div');
-  el.className=`toast ${type?'toast-'+type:''}`;
-  el.innerHTML=msg;
+  const el = document.createElement('div');
+  el.className = `toast ${type ? 'toast-' + type : ''}`;
+  el.innerHTML = msg;
   document.getElementById('toast-container').appendChild(el);
-  setTimeout(()=>el.remove(),3100);
+  setTimeout(() => el.remove(), 3100);
 }
+
+function setBjMsg(msg) { document.getElementById('bj-msg').innerHTML = msg; }
+function setMpMsg(msg) { document.getElementById('mp-msg').innerHTML = msg; }
 
 function toggleMenu() {
   document.getElementById('sidebar').classList.toggle('open');
@@ -223,101 +492,565 @@ function toggleMenu() {
     document.getElementById('sidebar').classList.contains('open') ? 'block' : 'none';
 }
 
-function hasItem(id){ return player.inv.some(i=>i.id===id); }
+function hasItem(id) { return player.inv?.some(i => i.id === id); }
 
 // ═══════════════════════════════════════════
-//  BLACKJACK ENGINE
+//  MODE SWITCHING
 // ═══════════════════════════════════════════
-function updateBjLimits(){
-  let mode=document.getElementById('bj-mode').value;
-  const limits=[[10,1000],[1000,10000],[10000,100000],[100000,1000000],[1000000,10000000]];
-  [bjMinBet,bjMaxBet]=limits[mode-1];
-  document.getElementById('bj-bet').placeholder=`₹${fmt(bjMinBet)} – ₹${fmt(bjMaxBet)}`;
-}
+function setUiMode(mode) {
+  uiMode = mode;
+  document.getElementById('tab-offline').classList.toggle('active', mode === 'offline');
+  document.getElementById('tab-online').classList.toggle('active', mode === 'online');
+  document.getElementById('offline-section').style.display = mode === 'offline' ? '' : 'none';
+  document.getElementById('online-section').style.display = mode === 'online' ? '' : 'none';
 
-function buildBjDeck(){
-  bjDeck=[];
-  const suits=['♠','♥','♦','♣'],vals=['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
-  for(let d=0;d<6;d++) for(let s of suits) for(let v of vals){
-    let w=parseInt(v)||(['J','Q','K'].includes(v)?10:11);
-    bjDeck.push({suit:s,value:v,weight:w});
+  if (mode === 'online') {
+    document.getElementById('online-toggle').checked = true;
+    connectWS();
   }
-  for(let i=bjDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bjDeck[i],bjDeck[j]]=[bjDeck[j],bjDeck[i]];}
 }
 
-function drawCard(){ if(bjDeck.length<20)buildBjDeck(); return bjDeck.pop(); }
+function toggleOnlineMode() {
+  const checked = document.getElementById('online-toggle').checked;
+  setUiMode(checked ? 'online' : 'offline');
+}
 
-function getScore(cards){
-  let score=0,aces=0;
-  for(let c of cards){score+=c.weight;if(c.value==='A')aces++;}
+// ═══════════════════════════════════════════
+//  WEBSOCKET
+// ═══════════════════════════════════════════
+let ws = null, wsReconnectTimer = null, wsReconnecting = false;
+let pingTimer = null;
+let currentRoom = null;
+let pendingInviteId = null, inviteTimerInterval = null;
+
+function connectWS() {
+  if (ws && ws.readyState === WebSocket.OPEN) return;
+  if (ws) { ws.close(); ws = null; }
+  clearTimeout(wsReconnectTimer);
+
+  setConnStatus('connecting');
+  ws = new WebSocket(SERVER_WS);
+
+  ws.onopen = () => {
+    setConnStatus('connected');
+    ws.send(JSON.stringify({ type: 'identify', userId: myUserId }));
+    startPing();
+    wsReconnecting = false;
+  };
+
+  ws.onmessage = (e) => {
+    try { handleServerMsg(JSON.parse(e.data)); } catch(err) { console.error(err); }
+  };
+
+  ws.onclose = () => {
+    setConnStatus('disconnected');
+    stopPing();
+    scheduleReconnect();
+  };
+
+  ws.onerror = () => {
+    setConnStatus('disconnected');
+  };
+}
+
+function scheduleReconnect() {
+  if (uiMode !== 'online') return;
+  wsReconnectTimer = setTimeout(() => {
+    wsReconnecting = true;
+    setConnStatus('connecting');
+    connectWS();
+  }, 4000);
+}
+
+function startPing() {
+  stopPing();
+  pingTimer = setInterval(() => {
+    if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: 'ping' }));
+  }, 12000);
+}
+
+function stopPing() { clearInterval(pingTimer); }
+
+function wsSend(data) {
+  if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(data));
+  else toast('Not connected to server.', 'red');
+}
+
+function setConnStatus(status) {
+  const badge = document.getElementById('conn-status-badge');
+  const text = document.getElementById('conn-status-text');
+  badge.className = 'conn-status ' + status;
+  text.textContent = status === 'connected' ? 'Connected' : status === 'connecting' ? 'Connecting…' : 'Disconnected';
+}
+
+// ═══════════════════════════════════════════
+//  SERVER MESSAGE HANDLER
+// ═══════════════════════════════════════════
+function handleServerMsg(msg) {
+  switch(msg.type) {
+
+    case 'identified':
+      toast(`🎰 Connected as ID ${msg.userId}`, 'teal');
+      renderSeats();
+      break;
+
+    case 'room_state':
+      currentRoom = msg.room;
+      renderOnlineLobby();
+      break;
+
+    case 'player_reconnected':
+      toast(`Player ${msg.userId} reconnected`, 'teal');
+      break;
+
+    case 'player_disconnected':
+      toast(`Player ${msg.userId} disconnected (${Math.round(msg.gracePeriod/1000)}s grace)`, 'red');
+      break;
+
+    case 'player_left':
+      toast(`Player ${msg.userId} left the room.`, 'red');
+      if (currentRoom) currentRoom.players = currentRoom.players.filter(p => p.userId !== msg.userId);
+      renderSeats();
+      break;
+
+    case 'invite_sent':
+      toast(`📨 Invite sent to ${msg.toUserId}!`, 'teal');
+      closeAddModal();
+      break;
+
+    case 'invite_received':
+      showInviteModal(msg);
+      break;
+
+    case 'invite_accepted':
+      toast(`✅ ${msg.byUserId} accepted your invite!`, 'gold');
+      break;
+
+    case 'invite_declined':
+      toast(`❌ ${msg.byUserId} declined.`, 'red');
+      break;
+
+    case 'invite_expired':
+      toast(`⏰ Invite to ${msg.toUserId} expired.`, 'red');
+      break;
+
+    case 'bet_placed':
+      toast(`Bet placed by ${msg.userId}`, 'teal');
+      break;
+
+    case 'all_bets_placed':
+      if (currentRoom?.hostId === myUserId) {
+        toast('All bets placed — you can start the round!', 'gold');
+      }
+      break;
+
+    case 'host_changed':
+      toast(`New host: ${msg.newHostId}`, 'gold');
+      break;
+
+    case 'left_room':
+      currentRoom = null;
+      renderSeats();
+      setMpMsg('Left the room.');
+      break;
+
+    case 'system':
+      setMpMsg(msg.message);
+      toast(msg.message, 'gold');
+      break;
+
+    case 'error':
+      toast(`⚠ ${msg.message}`, 'red');
+      break;
+
+    case 'pong':
+      // ignore
+      break;
+  }
+}
+
+// ═══════════════════════════════════════════
+//  ONLINE LOBBY RENDERING
+// ═══════════════════════════════════════════
+const BET_RANGES_CLIENT = {
+  '10-1k':    { label: '₹10–1k',   min:10,      max:1000 },
+  '1k-10k':   { label: '₹1k–10k',  min:1000,    max:10000 },
+  '10k-100k': { label: '₹10k–100k',min:10000,   max:100000 },
+  '100k-1m':  { label: '₹100k–1M', min:100000,  max:1000000 },
+  '1m-10m':   { label: '₹1M–10M',  min:1000000, max:10000000 },
+};
+
+function renderSeats() {
+  const area = document.getElementById('seats-area');
+  area.innerHTML = '';
+
+  const players = currentRoom?.players ?? [];
+  const isHost = currentRoom?.hostId === myUserId;
+
+  // My seat
+  const mySeat = document.createElement('div');
+  mySeat.className = 'seat self';
+  mySeat.innerHTML = `<div class="seat-id self-id">${myUserId}</div><div class="seat-label">You</div>`;
+  area.appendChild(mySeat);
+
+  // Other players
+  for (const p of players) {
+    if (p.userId === myUserId) continue;
+    const seat = document.createElement('div');
+    seat.className = `seat occupied${!p.online ? ' disconnected-seat' : ''}`;
+    seat.innerHTML = `<div class="seat-id">${p.userId}</div>
+      <div class="seat-label">${p.online ? '● Online' : '○ Offline'}</div>
+      ${p.bet != null ? `<div class="seat-bet">Bet: ₹${fmt(p.bet)}</div>` : ''}`;
+    area.appendChild(seat);
+  }
+
+  // Empty seats (up to 3 total)
+  const maxEmpty = Math.max(0, 3 - players.length - (players.some(p => p.userId === myUserId) ? 0 : 1));
+  for (let i = 0; i < maxEmpty; i++) {
+    const seat = document.createElement('div');
+    seat.className = 'seat seat-empty';
+    seat.innerHTML = `<div class="seat-add" onclick="openAddModal()">＋</div><div class="seat-label">Empty</div>`;
+    area.appendChild(seat);
+  }
+
+  // Bet range (host)
+  const rangeArea = document.getElementById('bet-range-area');
+  if (isHost && (!currentRoom || currentRoom.state === 'waiting' || currentRoom.state === 'waiting_bets')) {
+    rangeArea.style.display = '';
+    const chips = document.getElementById('bet-range-chips');
+    chips.innerHTML = '';
+    for (const [key, val] of Object.entries(BET_RANGES_CLIENT)) {
+      const chip = document.createElement('div');
+      chip.className = 'range-chip' + (currentRoom?.betRange === key ? ' active' : '');
+      chip.textContent = val.label;
+      chip.onclick = () => { wsSend({ type: 'set_bet_range', betRange: key }); };
+      chips.appendChild(chip);
+    }
+  } else {
+    rangeArea.style.display = 'none';
+  }
+
+  // Bet input
+  const betArea = document.getElementById('online-bet-area');
+  const myPlayer = players.find(p => p.userId === myUserId);
+  if (currentRoom?.state === 'waiting_bets' || currentRoom?.state === 'waiting') {
+    if (!myPlayer?.bet) {
+      const range = BET_RANGES_CLIENT[currentRoom?.betRange] || BET_RANGES_CLIENT['10-1k'];
+      document.getElementById('mp-bet-input').placeholder = `₹${fmt(range.min)}–${fmt(range.max)}`;
+      betArea.style.display = '';
+    } else {
+      betArea.style.display = 'none';
+      if (!isHost) setMpMsg('Bet placed. Waiting for host to start…');
+    }
+  } else {
+    betArea.style.display = 'none';
+  }
+
+  // Host start button
+  const startArea = document.getElementById('host-start-area');
+  const hintEl = document.getElementById('host-start-hint');
+  if (isHost && currentRoom?.state === 'waiting_bets') {
+    startArea.style.display = '';
+    const activePlayers = players.filter(p => p.status !== 'waiting_next_round');
+    const betsIn = activePlayers.filter(p => p.bet != null).length;
+    const total = activePlayers.length;
+    const startBtn = document.getElementById('btn-start-round');
+    if (betsIn === total) {
+      hintEl.textContent = `All ${total} bets placed ✓`;
+      startBtn.disabled = false;
+    } else {
+      hintEl.textContent = `${betsIn}/${total} bets placed — you can still start early`;
+      startBtn.disabled = betsIn === 0;
+    }
+  } else {
+    startArea.style.display = 'none';
+  }
+}
+
+function renderOnlineLobby() {
+  if (!currentRoom) { renderSeats(); return; }
+
+  renderSeats();
+
+  const state = currentRoom.state;
+  const isPlaying = state === 'playing' || state === 'dealer_turn' || state === 'settled';
+
+  document.getElementById('mp-table').style.display = isPlaying ? '' : 'none';
+  document.getElementById('mp-controls').style.display = 'none';
+
+  if (!isPlaying) {
+    if (state === 'waiting') setMpMsg('Waiting for players… Invite friends using ＋');
+    else if (state === 'waiting_bets') {
+      if (currentRoom.hostId === myUserId) setMpMsg('Collect bets, then press Start Round.');
+      else setMpMsg('Place your bet. Waiting for host to start the round.');
+    }
+    return;
+  }
+
+  // Dealer
+  renderMpDealer();
+
+  // Player hands
+  renderMpHands();
+
+  // My controls
+  const me = currentRoom.players.find(p => p.userId === myUserId);
+  if (me?.isCurrentTurn) {
+    document.getElementById('mp-controls').style.display = 'flex';
+    const myHand = me.hand || [];
+    document.getElementById('mp-btn-double').disabled = myHand.length !== 2;
+  }
+
+  // State messages
+  if (state === 'dealer_turn') setMpMsg('Dealer is playing…');
+  else if (state === 'settled') renderResults();
+  else {
+    const current = currentRoom.players.find(p => p.isCurrentTurn);
+    if (current) {
+      setMpMsg(current.userId === myUserId ? '🎯 Your turn!' : `Waiting for ${current.userId}…`);
+    }
+  }
+}
+
+function renderMpDealer() {
+  const d = currentRoom.dealer;
+  if (!d) return;
+  let html = '';
+  for (const c of d.cards) {
+    if (c.hidden) { html += `<div class="card hidden"></div>`; continue; }
+    const col = (c.suit === '♥' || c.suit === '♦') ? 'red' : '';
+    html += `<div class="card ${col} deal-in">${c.value}<div class="card-suit">${c.suit}</div></div>`;
+  }
+  document.getElementById('mp-dealer-cards').innerHTML = html;
+  document.getElementById('mp-dealer-score').textContent = `Dealer: ${d.score}`;
+}
+
+function renderMpHands() {
+  const area = document.getElementById('mp-hands');
+  area.innerHTML = '';
+  for (const p of currentRoom.players) {
+    if (!p.hand) continue;
+    const isSelf = p.userId === myUserId;
+    const block = document.createElement('div');
+    block.className = `player-hand-block${isSelf ? ' self-hand' : ''}${p.isCurrentTurn ? ' active-turn' : ''}${p.status === 'busted' ? ' busted' : ''}`;
+    let cardsHtml = '';
+    for (const c of p.hand) {
+      const col = (c.suit === '♥' || c.suit === '♦') ? 'red' : '';
+      cardsHtml += `<div class="card ${col} deal-in">${c.value}<div class="card-suit">${c.suit}</div></div>`;
+    }
+    block.innerHTML = `<div class="pid">${isSelf ? '🎯 You' : p.userId}${p.bet ? ` · ₹${fmt(p.bet)}` : ''}</div>
+      <div class="hand-score">${p.handScore ?? '?'}${p.status === 'busted' ? ' BUST' : p.status === 'stood' ? ' ✓' : ''}</div>
+      <div class="cards-area" style="min-height:auto">${cardsHtml}</div>
+      ${currentRoom.state === 'settled' && currentRoom.results ? renderResultBadge(p.userId) : ''}`;
+    area.appendChild(block);
+  }
+}
+
+function renderResultBadge(uid) {
+  const r = currentRoom.results?.[uid];
+  if (!r) return '';
+  const labels = { win:'Win!', blackjack:'Blackjack!', loss:'Loss', bust:'Bust', push:'Push' };
+  const payoutText = r.outcome !== 'loss' && r.outcome !== 'bust' ? ` +₹${fmt(r.payout)}` : '';
+  return `<div class="result-badge ${r.outcome}">${labels[r.outcome] || r.outcome}${payoutText}</div>`;
+}
+
+function renderResults() {
+  if (!currentRoom.results) return;
+  const me = currentRoom.results[myUserId];
+  if (!me) return;
+  const labels = { win:'You Win!', blackjack:'Blackjack!', loss:'Dealer Wins', bust:'Bust!', push:'Push' };
+  const color = (me.outcome === 'win' || me.outcome === 'blackjack') ? 'var(--green)' : me.outcome === 'push' ? 'var(--text2)' : 'var(--red)';
+  setMpMsg(`<span style="color:${color}">${labels[me.outcome] || me.outcome}</span> · Payout: ₹${fmt(me.payout)} · Next round starting…`);
+
+  // Apply payout to local save
+  if (me.outcome !== 'loss' && me.outcome !== 'bust') {
+    player.money += me.payout;
+  }
+  if (me.outcome === 'win' || me.outcome === 'blackjack') player.stats.bjWins++;
+  updateUI();
+  saveGame();
+}
+
+// ═══════════════════════════════════════════
+//  INVITE MODALS
+// ═══════════════════════════════════════════
+let seatToAddIndex = 0;
+
+function openAddModal() {
+  document.getElementById('add-modal').style.display = 'flex';
+  document.getElementById('add-id-input').value = '';
+  document.getElementById('add-modal-error').textContent = '';
+  setTimeout(() => document.getElementById('add-id-input').focus(), 100);
+}
+
+function closeAddModal() {
+  document.getElementById('add-modal').style.display = 'none';
+}
+
+async function submitInvite() {
+  const val = document.getElementById('add-id-input').value.trim();
+  const errEl = document.getElementById('add-modal-error');
+  if (!/^\d{5}$/.test(val)) { errEl.textContent = 'Must be a 5-digit ID.'; return; }
+  if (val === myUserId) { errEl.textContent = "That's your own ID!"; return; }
+
+  errEl.textContent = 'Checking…';
+  try {
+    const res = await fetch(`${SERVER_URL}/api/user/${val}`);
+    const data = await res.json();
+    if (!data.found) { errEl.textContent = `User ${val} not found.`; return; }
+    errEl.textContent = '';
+    wsSend({ type: 'send_invite', toUserId: val });
+  } catch(e) {
+    errEl.textContent = 'Server unreachable.';
+  }
+}
+
+document.getElementById('add-id-input')?.addEventListener('keydown', e => { if (e.key === 'Enter') submitInvite(); });
+
+function showInviteModal(msg) {
+  pendingInviteId = msg.inviteId;
+  document.getElementById('invite-from-id').textContent = msg.fromUserId;
+  document.getElementById('invite-bet-range').textContent =
+    BET_RANGES_CLIENT[msg.betRange]?.label || msg.betRange;
+  document.getElementById('invite-modal').style.display = 'flex';
+
+  let remaining = Math.ceil(msg.expiresIn / 1000);
+  document.getElementById('invite-timer-text').textContent = `Expires in ${remaining}s`;
+  clearInterval(inviteTimerInterval);
+  inviteTimerInterval = setInterval(() => {
+    remaining--;
+    document.getElementById('invite-timer-text').textContent = `Expires in ${remaining}s`;
+    if (remaining <= 0) { clearInterval(inviteTimerInterval); closeInviteModal(); }
+  }, 1000);
+}
+
+function closeInviteModal() {
+  document.getElementById('invite-modal').style.display = 'none';
+  clearInterval(inviteTimerInterval);
+  pendingInviteId = null;
+}
+
+function respondInvite(accepted) {
+  if (!pendingInviteId) return;
+  wsSend({ type: 'invite_response', inviteId: pendingInviteId, accepted });
+  closeInviteModal();
+  if (accepted) setMpMsg('Joined the room!');
+}
+
+// ═══════════════════════════════════════════
+//  MULTIPLAYER ACTIONS
+// ═══════════════════════════════════════════
+function placeMpBet() {
+  const val = parseInt(document.getElementById('mp-bet-input').value);
+  const range = BET_RANGES_CLIENT[currentRoom?.betRange] || BET_RANGES_CLIENT['10-1k'];
+  if (isNaN(val) || val < range.min || val > range.max) {
+    toast(`Bet must be ₹${fmt(range.min)}–₹${fmt(range.max)}`, 'red'); return;
+  }
+  if (player.money < val) { toast('Not enough gold!', 'red'); return; }
+  player.money -= val;
+  updateUI(); saveGame();
+  wsSend({ type: 'place_bet', bet: val });
+  document.getElementById('online-bet-area').style.display = 'none';
+  const isHost = currentRoom?.hostId === myUserId;
+  setMpMsg(isHost ? 'Your bet is set. Press Start Round when ready.' : 'Bet placed. Waiting for host to start…');
+}
+
+function hostStartRound() {
+  if (currentRoom?.hostId !== myUserId) { toast('Only the host can start.', 'red'); return; }
+  wsSend({ type: 'start_round' });
+  document.getElementById('host-start-area').style.display = 'none';
+  setMpMsg('Starting round…');
+}
+
+function mpAction(action) {
+  wsSend({ type: 'game_action', action });
+}
+
+// ═══════════════════════════════════════════
+//  OFFLINE BLACKJACK ENGINE
+// ═══════════════════════════════════════════
+let bjDeck=[], bjDealer={cards:[]}, bjHands=[], currentHandIndex=0;
+let bjMinBet=10, bjMaxBet=1000, bjState='betting', bjInsuranceTaken=false;
+
+function updateBjLimits() {
+  const mode = document.getElementById('bj-mode').value;
+  const limits = [[10,1000],[1000,10000],[10000,100000],[100000,1000000],[1000000,10000000]];
+  [bjMinBet, bjMaxBet] = limits[mode-1];
+  document.getElementById('bj-bet').placeholder = `₹${fmt(bjMinBet)}–₹${fmt(bjMaxBet)}`;
+}
+
+function buildBjDeck() {
+  bjDeck = [];
+  const suits=['♠','♥','♦','♣'], vals=['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+  for (let d=0;d<6;d++) for (let s of suits) for (let v of vals) {
+    let w = parseInt(v) || (['J','Q','K'].includes(v) ? 10 : 11);
+    bjDeck.push({suit:s, value:v, weight:w});
+  }
+  for (let i=bjDeck.length-1;i>0;i--) {
+    const j=Math.floor(Math.random()*(i+1));
+    [bjDeck[i],bjDeck[j]]=[bjDeck[j],bjDeck[i]];
+  }
+}
+
+function drawCard() { if(bjDeck.length<20) buildBjDeck(); return bjDeck.pop(); }
+
+function getScore(cards) {
+  let score=0, aces=0;
+  for (const c of cards) { if(c.hidden) continue; score+=c.weight; if(c.value==='A') aces++; }
   while(score>21&&aces>0){score-=10;aces--;}
   return score;
 }
 
-function setBjMsg(msg){ document.getElementById('bj-msg').innerHTML=msg; }
-
-function startBjRound(){
+function startBjRound() {
   if(bjState==='playing') return;
-  let bet=parseInt(document.getElementById('bj-bet').value);
+  let bet = parseInt(document.getElementById('bj-bet').value);
   if(isNaN(bet)||bet<bjMinBet||bet>bjMaxBet){setBjMsg(`Bet must be ₹${fmt(bjMinBet)}–₹${fmt(bjMaxBet)}`);return;}
   if(player.money<bet){setBjMsg('Not enough gold!');return;}
-  
-  player.money-=bet; 
-  updateUI();
+  player.money-=bet; updateUI();
   buildBjDeck();
-  
   bjDealer.cards=[drawCard(),drawCard()];
   bjHands=[{cards:[drawCard(),drawCard()],bet,status:'active'}];
   currentHandIndex=0; bjState='playing'; bjInsuranceTaken=false;
-  
   document.getElementById('btn-bj-deal').style.display='none';
   document.getElementById('bj-controls').style.display='flex';
   document.getElementById('bj-21-banner').classList.remove('show');
   setBjMsg('Good luck, captain!');
   renderBjTable();
-
   let ins=document.getElementById('btn-bj-insurance');
-  if(bjDealer.cards[0].value==='A'&&(hasItem('bj_book_1')||player.money>=Math.floor(bet/2))){
+  if(bjDealer.cards[0].value==='A'){
     ins.style.display='inline-block';
-    ins.innerText=hasItem('bj_book_1')?'🛡️ Free Insurance':'🛡️ Insurance';
+    ins.textContent=hasItem('bj_book_1')?'🛡️ Free Insurance':'🛡️ Insurance';
   } else ins.style.display='none';
-  
   checkBlackjack();
 }
 
-function checkBlackjack(){
-  let pScore=getScore(bjHands[0].cards);
-  let dScore=getScore(bjDealer.cards);
-  let pBJ=pScore===21&&bjHands[0].cards.length===2;
-  let dBJ=dScore===21&&bjDealer.cards.length===2;
-  
+function checkBlackjack() {
+  let pScore=getScore(bjHands[0].cards), dScore=getScore(bjDealer.cards);
+  let pBJ=pScore===21&&bjHands[0].cards.length===2, dBJ=dScore===21&&bjDealer.cards.length===2;
   if(pBJ||dBJ){
-    bjState='gameOver'; 
-    renderBjTable();
-    if(pBJ&&dBJ){ setBjMsg("Push — Double Blackjacks!"); player.money+=bjHands[0].bet; }
+    bjState='gameOver'; renderBjTable();
+    if(pBJ&&dBJ){setBjMsg("Push — Double Blackjacks!");player.money+=bjHands[0].bet;}
     else if(pBJ){
       let mult=hasItem('bj_book_2')?3:2.5;
       setBjMsg(applyWin(bjHands[0].bet,mult,'🃏 Natural Blackjack!'));
       document.getElementById('bj-21-banner').classList.add('show');
     } else {
-      if(bjInsuranceTaken||hasItem('bj_book_1')){ setBjMsg("Dealer Blackjack. Insurance saved you!"); player.money+=bjHands[0].bet; }
+      if(bjInsuranceTaken||hasItem('bj_book_1')){setBjMsg("Dealer Blackjack. Insurance saved you!");player.money+=bjHands[0].bet;}
       else setBjMsg("Dealer has Blackjack.");
     }
     endBjRound();
   }
 }
 
-function applyWin(betAmount,mult,prefix){
-  let total=Math.floor(betAmount*mult);
-  let profit=total-betAmount;
+function applyWin(betAmount, mult, prefix) {
+  let total=Math.floor(betAmount*mult), profit=total-betAmount;
   let xp=Math.max(1,Math.floor(profit/10));
-  player.money+=total; player.exp+=xp;
-  player.stats.bjWins++;
+  player.money+=total; player.exp+=xp; player.stats.bjWins++;
   trackQuestProgress('bjwin',1);
   return `${prefix} (₹${fmt(total)}) <span style="color:#6ddc9a">[+${xp} XP]</span>`;
 }
 
-function renderBjTable(){
+function renderBjTable() {
   let dCardsHtml='', dScore='?';
   if(bjState==='gameOver'||bjState==='dealerTurn'){
     dScore=getScore(bjDealer.cards);
@@ -331,16 +1064,16 @@ function renderBjTable(){
     dCardsHtml+=`<div class="card ${col}">${c0.value}<div class="card-suit">${c0.suit}</div></div>`;
     dCardsHtml+=`<div class="card hidden"></div>`;
   }
-  document.getElementById('dealer-score').innerText=`Dealer: ${dScore}`;
+  document.getElementById('dealer-score').textContent=`Dealer: ${dScore}`;
   document.getElementById('dealer-cards').innerHTML=dCardsHtml;
 
   let pArea=document.getElementById('player-area');
   pArea.innerHTML='';
   bjHands.forEach((hand,i)=>{
     let score=getScore(hand.cards);
-    let active=(i===currentHandIndex&&bjState==='playing')?'active-hand':'';
-    let html=`<div style="text-align:center" class="${active}">
-      <div class="hand-score">You: ${score} · Bet ₹${fmt(hand.bet)}</div>
+    let active=(i===currentHandIndex&&bjState==='playing')?'active-turn':'';
+    let html=`<div class="player-hand-block self-hand ${active}">
+      <div class="hand-score">You: ${score}${score>21?' BUST':''} · ₹${fmt(hand.bet)}</div>
       <div class="cards-area" style="min-height:auto">`;
     hand.cards.forEach(c=>{
       let col=(c.suit==='♥'||c.suit==='♦')?'red':'';
@@ -358,8 +1091,7 @@ function renderBjTable(){
 }
 
 function bjHit(){
-  let hand=bjHands[currentHandIndex];
-  hand.cards.push(drawCard());
+  let hand=bjHands[currentHandIndex]; hand.cards.push(drawCard());
   let score=getScore(hand.cards);
   if(score===21){
     document.getElementById('bj-21-banner').classList.add('show');
@@ -367,12 +1099,11 @@ function bjHit(){
     player.money+=bonus; player.stats.bj21s++; trackQuestProgress('bj21',1);
     toast(`🌟 21 Bonus! ₹${fmt(bonus)}`,'legendary');
     hand.status='stood'; nextHand();
-  } else if(score>21){
-    hand.status='busted'; nextHand();
-  } else renderBjTable();
+  } else if(score>21){hand.status='busted';nextHand();}
+  else renderBjTable();
 }
 
-function bjStand(){ bjHands[currentHandIndex].status='stood'; nextHand(); }
+function bjStand(){bjHands[currentHandIndex].status='stood';nextHand();}
 
 function bjDouble(){
   let hand=bjHands[currentHandIndex];
@@ -392,16 +1123,15 @@ function bjSplit(){
 }
 
 function bjInsurance(){
-  let hand=bjHands[0];
-  let cost=Math.floor(hand.bet/2);
-  if(hasItem('bj_book_1')){ bjInsuranceTaken=true; toast('Free Insurance active!','gold'); }
-  else if(player.money>=cost){ player.money-=cost; bjInsuranceTaken=true; toast(`Insurance taken`,'gold'); updateUI(); }
+  let hand=bjHands[0], cost=Math.floor(hand.bet/2);
+  if(hasItem('bj_book_1')){bjInsuranceTaken=true;toast('Free Insurance active!','gold');}
+  else if(player.money>=cost){player.money-=cost;bjInsuranceTaken=true;toast('Insurance taken','gold');updateUI();}
   document.getElementById('btn-bj-insurance').style.display='none';
 }
 
 function nextHand(){
   currentHandIndex++;
-  if(currentHandIndex>=bjHands.length){ bjState='dealerTurn'; playDealer(); }
+  if(currentHandIndex>=bjHands.length){bjState='dealerTurn';playDealer();}
   else renderBjTable();
 }
 
@@ -411,26 +1141,23 @@ function playDealer(){
   const draw=()=>{
     if(!allBusted&&getScore(bjDealer.cards)<17){
       bjDealer.cards.push(drawCard()); renderBjTable(); setTimeout(draw,500);
-    } else { bjState='gameOver'; resolveBjBets(); }
+    } else {bjState='gameOver'; resolveBjBets();}
   };
   setTimeout(draw,600);
 }
 
 function resolveBjBets(){
-  let dScore=getScore(bjDealer.cards);
-  let msgs=[];
+  let dScore=getScore(bjDealer.cards), msgs=[];
   bjHands.forEach((hand,i)=>{
     let pScore=getScore(hand.cards);
     let pre=bjHands.length>1?`Hand ${i+1}: `:'';
     if(hand.status==='busted') msgs.push(`${pre}Busted.`);
     else if(dScore>21) msgs.push(applyWin(hand.bet,2,`${pre}Dealer busted!`));
     else if(pScore>dScore) msgs.push(applyWin(hand.bet,2,`${pre}You win!`));
-    else if(pScore===dScore){ msgs.push(`${pre}Push.`); player.money+=hand.bet; }
+    else if(pScore===dScore){msgs.push(`${pre}Push.`);player.money+=hand.bet;}
     else msgs.push(`${pre}Dealer wins.`);
   });
-  setBjMsg(msgs.join('<br>'));
-  renderBjTable(); endBjRound();
-  updateUI();
+  setBjMsg(msgs.join('<br>')); renderBjTable(); endBjRound(); updateUI();
 }
 
 function endBjRound(){
@@ -439,18 +1166,21 @@ function endBjRound(){
   document.getElementById('bj-controls').style.display='none';
 }
 
-// Quest syncing logic
 function trackQuestProgress(type, amount) {
-    player.quests.forEach(q => {
-        if(q.type === type && !q.claimed) {
-            q.progress = Math.min(q.target, q.progress + amount);
-        }
-    });
+  if (!player.quests) return;
+  player.quests.forEach(q=>{
+    if(q.type===type&&!q.claimed) q.progress=Math.min(q.target,(q.progress||0)+amount);
+  });
 }
 
-window.onload = () => {
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+window.onload = async () => {
   loadGame();
+  await initUserId();
   updateBjLimits();
+  renderSeats();
 };
 </script>
 </body>
